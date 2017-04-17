@@ -18,6 +18,7 @@ package com.zql.android.purelauncher.presentation.framework;
 
 import com.zql.android.purelauncher.adapter.model.processor.AppProcessor;
 import com.zql.android.purelauncher.adapter.model.processor.Bridges;
+import com.zql.android.purelauncher.adapter.model.processor.ContactProcessor;
 
 /**
  * @author qinglian.zhang, created on 2017/4/12.
@@ -25,6 +26,8 @@ import com.zql.android.purelauncher.adapter.model.processor.Bridges;
 public class BridgesImp implements Bridges {
 
     private AppBridge appBridge;
+
+    private ContactBridge contactBridge;
 
     private static BridgesImp sInstance;
 
@@ -38,6 +41,7 @@ public class BridgesImp implements Bridges {
 
     private BridgesImp() {
         appBridge = new AppBridge();
+        contactBridge = new ContactBridge();
     }
 
     @Override
@@ -45,7 +49,18 @@ public class BridgesImp implements Bridges {
         if (appBridge != null) {
             return appBridge;
         } else {
-            return new AppBridge();
+            appBridge = new AppBridge();
+            return appBridge;
+        }
+    }
+
+    @Override
+    public ContactProcessor.Bridge getContactProcessorBridge() {
+        if(contactBridge != null){
+            return contactBridge;
+        }else {
+            contactBridge = new ContactBridge();
+            return contactBridge;
         }
     }
 }

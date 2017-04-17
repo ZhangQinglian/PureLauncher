@@ -20,8 +20,10 @@ import android.widget.ImageView;
 
 import com.zql.android.purelauncher.adapter.model.Action.Action;
 import com.zql.android.purelauncher.adapter.model.Action.AppAction;
+import com.zql.android.purelauncher.adapter.model.Action.ContactAction;
 import com.zql.android.purelauncher.adapter.model.processor.AppProcessor;
 import com.zql.android.purelauncher.adapter.model.processor.Bridges;
+import com.zql.android.purelauncher.adapter.model.processor.ContactProcessor;
 import com.zql.android.purelauncher.adapter.model.processor.Processor;
 import com.zql.android.purelauncher.adapter.presenter.launcher.Contract.Presenter;
 import com.zql.android.purelauncher.presentation.framework.BridgesImp;
@@ -42,9 +44,14 @@ public class LauncherPresenter implements Presenter {
     public LauncherPresenter(Contract.View view, Bridges bridges){
         mView = view;
         mView.setPresenter(this);
-        Processor processor = new AppProcessor(bridges.getAppProcessorBridge());
-        processor.setCallback(this);
-        processors.add(processor);
+        //APP
+        Processor appProcessor = new AppProcessor(bridges.getAppProcessorBridge());
+        appProcessor.setCallback(this);
+        processors.add(appProcessor);
+        //Contact
+        Processor contactProcessor = new ContactProcessor(bridges.getContactProcessorBridge());
+        contactProcessor.setCallback(this);
+        processors.add(contactProcessor);
     }
 
     @Override
@@ -60,7 +67,7 @@ public class LauncherPresenter implements Presenter {
     @Override
     public void onKeyChanged(String key) {
         if(key == null ||(key.trim().length() == 0)){
-            mView.updateAction(null);
+            mView.updateAction(null,Action.ACTION_INVAL);
         }
         for(int i = 0;i<processors.size();i++){
             Processor processor = processors.get(i);
@@ -69,8 +76,13 @@ public class LauncherPresenter implements Presenter {
     }
 
     @Override
-    public void loadApplicationLog(String packageName, ImageView imageView) {
+    public void loadApplicationLogo(String packageName, ImageView imageView) {
         BridgesImp.own().getAppProcessorBridge().loadAppLogo(packageName,imageView);
+    }
+
+    @Override
+    public void loadContactPhoto(String photoUri, ImageView imageView) {
+        BridgesImp.own().getContactProcessorBridge().loadContactPhoto(photoUri,imageView);
     }
 
     @Override
@@ -78,6 +90,10 @@ public class LauncherPresenter implements Presenter {
         if(action instanceof AppAction){
             AppAction appAction = (AppAction) action;
             BridgesImp.own().getAppProcessorBridge().openApp(appAction.packageName);
+        }
+        if(action instanceof ContactAction){
+            ContactAction contactAction = (ContactAction)action;
+            BridgesImp.own().getContactProcessorBridge().openContact(contactAction.lookupKey,contactAction.contactId);
         }
     }
 
@@ -87,11 +103,11 @@ public class LauncherPresenter implements Presenter {
     }
 
     @Override
-    public synchronized void onWorkDone(String key, List<Action> actions) {
+    public synchronized void onWorkDone(String key, List<Action> actions,int actionType) {
         Logly.d(" the query key : " + key);
         for(int i = 0;i<actions.size();i++){
             Logly.d(actions.get(i).toString());
         }
-        mView.updateAction(actions);
+        mView.updateAction(actions,actionType);
     }
 }

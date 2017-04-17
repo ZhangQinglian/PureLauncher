@@ -45,21 +45,10 @@ public class LauncherSearchResultContainer extends FrameLayout{
 
     public void show(){
         setVisibility(VISIBLE);
-        animate().alpha(1).setDuration(300).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-            }
-        }).start();
     }
 
     public void hide(){
-        animate().alpha(0).setDuration(300).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                setVisibility(INVISIBLE);
-            }
-        }).start();
+        setVisibility(INVISIBLE);
     }
 
 }

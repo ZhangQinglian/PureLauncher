@@ -16,31 +16,30 @@
 
 package com.zql.android.purelauncher.adapter.model.processor;
 
-
 import com.zql.android.purelauncher.adapter.model.Action.Action;
-import com.zql.android.purelauncher.adapter.model.Action.AppAction;
+import com.zql.android.purelauncher.adapter.model.Action.ContactAction;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * @author qinglian.zhang, created on 2017/4/12.
+ * @author qinglian.zhang, created on 2017/4/17.
  */
-public class AppProcessor extends Processor {
+public class ContactProcessor extends Processor {
 
     private Set<Worker> workers = new HashSet<>();
 
-    private AppProcessor.Bridge mBridge;
-
-    public AppProcessor(AppProcessor.Bridge bridge){
-        mBridge = bridge;
-    }
+    private ContactProcessor.Bridge mBridge;
 
     public interface Bridge extends IBridge{
-        List<AppAction> getAppActions(String key);
-        void loadAppLogo(String packageName, Object imageView);
-        void openApp(String packgeName);
+        List<ContactAction> getContactActions(String key);
+        void loadContactPhoto(String id,Object imageView);
+        void openContact(String lookupKey,String contactId);
+    }
+
+    public ContactProcessor(ContactProcessor.Bridge bridge){
+        mBridge = bridge;
     }
     @Override
     public void onKeyChanged(String newKey) {
@@ -49,10 +48,11 @@ public class AppProcessor extends Processor {
         worker.start();
     }
 
-    private class Worker extends Thread {
+    private class Worker extends Thread{
+
         private String key;
 
-        public Worker(String key) {
+        public Worker(String key){
             this.key = key;
         }
 
@@ -62,12 +62,11 @@ public class AppProcessor extends Processor {
                 return;
             }
             if(mBridge != null){
-                List<AppAction> appActions = mBridge.getAppActions(key);
-                if(appActions != null){
-                    workDone(key, appActions, Action.ACTION_APP);
+                List<ContactAction> actions = mBridge.getContactActions(key);
+                if(actions != null){
+                    workDone(key,actions, Action.ACTION_CONTACT);
                 }
             }
-
             workers.remove(this);
         }
     }

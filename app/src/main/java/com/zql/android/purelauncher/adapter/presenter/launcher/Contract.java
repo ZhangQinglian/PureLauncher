@@ -33,13 +33,14 @@ public interface Contract extends IContract{
 
     interface Presenter extends IPresenter,Processor.Callback{
         void onKeyChanged(String key);
-        void loadApplicationLog(String packageName, ImageView imageView);
+        void loadApplicationLogo(String packageName, ImageView imageView);
+        void loadContactPhoto(String photoUri,ImageView imageView);
         void action(Action action);
         void hideSearchView();
     }
 
     interface View extends IView<Presenter>{
-        void updateAction(List<Action> actions);
+        void updateAction(List<Action> actions,int actionType);
         void hideSearchView();
     }
 }

@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.zql.android.purelauncher.R;
 import com.zql.android.purelauncher.adapter.model.Action.Action;
 import com.zql.android.purelauncher.adapter.model.Action.AppAction;
+import com.zql.android.purelauncher.adapter.model.Action.ContactAction;
 import com.zql.android.purelauncher.adapter.presenter.launcher.Contract;
 import com.zql.android.purelauncher.presentation.LauncherApplication;
 import com.zql.android.purelauncher.presentation.ui.customview.LauncherContainer;
@@ -95,11 +96,11 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
     }
 
     @Override
-    public void updateAction(final List<Action> actions) {
+    public void updateAction(final List<Action> actions, final int actionType) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mResultAdapter.updateAction(actions);
+                mResultAdapter.updateAction(actions,actionType);
             }
         });
     }
@@ -113,11 +114,28 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
 
         private List<Action> actionList = new ArrayList<>();
 
-        public synchronized void updateAction(List<Action> actions){
-            actionList.clear();
-            if(actions != null){
-                actionList.addAll(actions);
+        private List<Action> appList = new ArrayList<>();
+
+        private List<Action> contactList = new ArrayList<>();
+
+        public synchronized void updateAction(List<Action> actions,int actionType){
+
+            if(actionType == Action.ACTION_APP){
+                appList.clear();
+                appList.addAll(actions);
             }
+            if(actionType == Action.ACTION_CONTACT){
+                contactList.clear();
+                contactList.addAll(actions);
+            }
+            if(actionType == Action.ACTION_INVAL){
+                appList.clear();
+                contactList.clear();
+            }
+
+            actionList.clear();
+            actionList.addAll(contactList);
+            actionList.addAll(appList);
 
             if(actionList.size() == 0){
                 mLauncherContainer.hideResultView();
@@ -140,9 +158,17 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
             holder.content.setText(action.getContent());
             if(action instanceof AppAction){
                 AppAction appAction = (AppAction)action;
-                mPresenter.loadApplicationLog(appAction.packageName,holder.thumbnail);
+                mPresenter.loadApplicationLogo(appAction.packageName,holder.thumbnail);
                 holder.icon.setImageResource(R.drawable.ic_search_app);
             }
+            if(action instanceof ContactAction){
+                ContactAction contactAction = (ContactAction)action;
+                holder.icon.setImageResource(R.drawable.ic_search_contact);
+                mPresenter.loadContactPhoto(contactAction.contactId,holder.thumbnail);
+            }
+
+
+            //animation
             holder.itemView.setAlpha(0);
             if(holder.animator != null){
                 holder.animator.cancel();
@@ -190,4 +216,6 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
             });
         }
     }
+
+
 }

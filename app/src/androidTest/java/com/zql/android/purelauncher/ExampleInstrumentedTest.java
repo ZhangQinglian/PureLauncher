@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.zql.android.purelauncher.presentation.framework.ContactBridge;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -16,11 +18,11 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
-    @Test
-    public void useAppContext() throws Exception {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.zql.android.purelauncher", appContext.getPackageName());
+    @Test
+    public void contactTest(){
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        ContactBridge bridge = new ContactBridge();
+        bridge.getContactActions("王");
     }
 }

@@ -29,7 +29,7 @@ public abstract class Processor {
 
     protected Processor.Callback mCallback;
     public interface Callback{
-        void onWorkDone(String key, List<Action> actions);
+        void onWorkDone(String key, List<Action> actions,int actionType);
     }
     public synchronized void updateInput(String input){
         if(!mKey.equals(input)){
@@ -42,12 +42,12 @@ public abstract class Processor {
     public void setCallback(Processor.Callback callback){
         mCallback = callback;
     }
-    public void workDone(String key,List actions){
+    public void workDone(String key,List actions,int actionType){
         if(!key.equals(mKey)){
             return ;
         }
         if(mCallback != null){
-            mCallback.onWorkDone(key,actions);
+            mCallback.onWorkDone(key,actions,actionType);
         }
     }
 

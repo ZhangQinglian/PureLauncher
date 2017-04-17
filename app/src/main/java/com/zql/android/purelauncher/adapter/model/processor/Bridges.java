@@ -22,4 +22,6 @@ package com.zql.android.purelauncher.adapter.model.processor;
 public interface Bridges {
 
     AppProcessor.Bridge getAppProcessorBridge();
+
+    ContactProcessor.Bridge getContactProcessorBridge();
 }
