@@ -21,15 +21,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.support.v4.util.LruCache;
 import android.widget.ImageView;
 
 import com.zql.android.purelauncher.R;
 import com.zql.android.purelauncher.adapter.model.Action.ContactAction;
 import com.zql.android.purelauncher.adapter.model.processor.ContactProcessor;
 import com.zql.android.purelauncher.presentation.LauncherApplication;
+import com.zql.android.purelauncher.presentation.ui.customview.drawable.CircleDrawable;
 import com.zqlite.android.logly.Logly;
 
 import java.io.InputStream;
@@ -42,13 +46,22 @@ import java.util.List;
 public class ContactBridge implements ContactProcessor.Bridge {
 
 
+    private int size = 1024 * 1024 * 4;
+    private LruCache<String, Bitmap> contactPhotoCache;
+
     public ContactBridge() {
+
         init();
     }
 
     @Override
     public void init() {
-
+        contactPhotoCache = new LruCache<String, Bitmap>(size) {
+            @Override
+            protected int sizeOf(String key, Bitmap value) {
+                return value.getByteCount();
+            }
+        };
     }
 
     @Override
@@ -86,34 +99,39 @@ public class ContactBridge implements ContactProcessor.Bridge {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
+                Bitmap bitmap = contactPhotoCache.get(id);
+                if (bitmap != null) return bitmap;
+
                 ContentResolver contentResolver = LauncherApplication.own().getContentResolver();
                 Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, id);
                 Logly.d("photo uri = " + uri.toString());
                 InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(contentResolver, uri, true);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                bitmap = BitmapFactory.decodeStream(inputStream);
+
+                if (bitmap == null) {
+                    bitmap = BitmapFactory.decodeResource(LauncherApplication.own().getResources(), R.drawable.ic_seacher_thumb_person);
+                }
+                contactPhotoCache.put(id, bitmap);
                 return bitmap;
 
             }
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
-                if(bitmap == null){
-                    bitmap = BitmapFactory.decodeResource(LauncherApplication.own().getResources(),R.drawable.ic_seacher_thumb_person);
-                    ((ImageView) imageView).setImageBitmap(bitmap);
-                }else {
-                    ((ImageView) imageView).setImageBitmap(bitmap);
-                }
+                ((ImageView) imageView).setImageBitmap(bitmap);
             }
         }.execute();
 
     }
 
     @Override
-    public void openContact(String lookupKey,String contactId) {
-        Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI,lookupKey + "/" + contactId);
+    public void openContact(String lookupKey, String contactId) {
+        Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey + "/" + contactId);
 
         Intent intent = new Intent(ContactsContract.QuickContact.ACTION_QUICK_CONTACT);
         intent.setData(uri);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setSourceBounds(new Rect(0,0,0,0));
         LauncherApplication.own().startActivity(intent);
     }
 }

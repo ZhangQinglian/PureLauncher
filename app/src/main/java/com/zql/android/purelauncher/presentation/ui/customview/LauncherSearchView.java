@@ -156,7 +156,7 @@ public class LauncherSearchView extends CardView {
         inputMethodManager.showSoftInput(mEditText,0);
     }
 
-    private void hideKeyboard(){
+    public void hideKeyboard(){
         InputMethodManager inputMethodManager = (InputMethodManager) LauncherApplication.own().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mEditText.getWindowToken(),0);
     }

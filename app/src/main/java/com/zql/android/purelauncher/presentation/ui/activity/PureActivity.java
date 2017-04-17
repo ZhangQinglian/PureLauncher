@@ -32,6 +32,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.zql.android.purelauncher.R;
 import com.zql.android.purelauncher.adapter.presenter.launcher.Contract;
 import com.zql.android.purelauncher.adapter.presenter.launcher.LauncherPresenter;
+import com.zql.android.purelauncher.presentation.LauncherApplication;
 import com.zql.android.purelauncher.presentation.framework.BridgesImp;
 import com.zql.android.purelauncher.presentation.ui.fragment.LauncherFragment;
 

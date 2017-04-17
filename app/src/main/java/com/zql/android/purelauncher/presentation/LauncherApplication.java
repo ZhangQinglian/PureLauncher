@@ -16,7 +16,10 @@
 
 package com.zql.android.purelauncher.presentation;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 
 import com.zql.android.purelauncher.BuildConfig;
 import com.zqlite.android.logly.Logly;
@@ -46,4 +49,5 @@ public class LauncherApplication extends Application {
     public static LauncherApplication own(){
         return sInstance;
     }
+
 }

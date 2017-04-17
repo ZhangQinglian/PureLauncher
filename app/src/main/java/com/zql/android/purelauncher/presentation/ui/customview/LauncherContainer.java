@@ -18,10 +18,12 @@ package com.zql.android.purelauncher.presentation.ui.customview;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.zql.android.purelauncher.R;
+import com.zql.android.purelauncher.presentation.LauncherApplication;
 import com.zqlite.android.logly.Logly;
 
 /**
@@ -101,5 +103,9 @@ public class LauncherContainer extends RelativeLayout implements LauncherSearchV
         if(mCallback != null){
             mCallback.onInputChanged(key);
         }
+    }
+
+    public void hideKeyboard(){
+        mSearchView.hideKeyboard();
     }
 }

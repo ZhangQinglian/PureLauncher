@@ -5,4 +5,11 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="launcher_search_bg">#88F2F0ED</color>
+
+    <color name="random_c_1">#FC4936</color>
+    <color name="random_c_2">#FDD046</color>
+    <color name="random_c_3">#A1529D</color>
+    <color name="random_c_4">#779BD6</color>
+    <color name="random_c_5">#80A155</color>
+
 </resources>

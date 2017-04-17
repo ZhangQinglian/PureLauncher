@@ -209,6 +209,7 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mLauncherContainer.hideKeyboard();
                     int position = getAdapterPosition();
                     Action action = mResultAdapter.getAction(position);
                     mPresenter.action(action);
