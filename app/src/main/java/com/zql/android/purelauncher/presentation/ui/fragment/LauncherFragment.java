@@ -174,7 +174,7 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
                 holder.animator.cancel();
             }
             ValueAnimator animator = ValueAnimator.ofFloat(0,1);
-            animator.setDuration(500).addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            animator.setDuration(300).addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float v = (float) animation.getAnimatedValue();

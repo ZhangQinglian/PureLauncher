@@ -16,6 +16,7 @@
 
 package com.zql.android.purelauncher.presentation.framework;
 
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -132,6 +133,16 @@ public class ContactBridge implements ContactProcessor.Bridge {
         intent.setData(uri);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setSourceBounds(new Rect(0,0,0,0));
-        LauncherApplication.own().startActivity(intent);
+
+        ComponentName componentName = intent.resolveActivity(LauncherApplication.own().getPackageManager());
+        if(componentName != null){
+            LauncherApplication.own().startActivity(intent);
+        }
+
+        intent.setAction(Intent.ACTION_VIEW);
+        componentName = intent.resolveActivity(LauncherApplication.own().getPackageManager());
+        if(componentName != null){
+            LauncherApplication.own().startActivity(intent);
+        }
     }
 }
