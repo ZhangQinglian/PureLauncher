@@ -24,6 +24,7 @@ import com.zql.android.purelauncher.adapter.model.Action.ContactAction;
 import com.zql.android.purelauncher.adapter.model.processor.AppProcessor;
 import com.zql.android.purelauncher.adapter.model.processor.Bridges;
 import com.zql.android.purelauncher.adapter.model.processor.ContactProcessor;
+import com.zql.android.purelauncher.adapter.model.processor.ExprProcessor;
 import com.zql.android.purelauncher.adapter.model.processor.Processor;
 import com.zql.android.purelauncher.adapter.presenter.launcher.Contract.Presenter;
 import com.zql.android.purelauncher.presentation.framework.BridgesImp;
@@ -52,6 +53,10 @@ public class LauncherPresenter implements Presenter {
         Processor contactProcessor = new ContactProcessor(bridges.getContactProcessorBridge());
         contactProcessor.setCallback(this);
         processors.add(contactProcessor);
+        //Expr
+        Processor exprProcessor = new ExprProcessor();
+        exprProcessor.setCallback(this);
+        processors.add(exprProcessor);
     }
 
     @Override

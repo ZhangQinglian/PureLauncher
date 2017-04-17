@@ -33,6 +33,7 @@ import com.zql.android.purelauncher.R;
 import com.zql.android.purelauncher.adapter.model.Action.Action;
 import com.zql.android.purelauncher.adapter.model.Action.AppAction;
 import com.zql.android.purelauncher.adapter.model.Action.ContactAction;
+import com.zql.android.purelauncher.adapter.model.Action.ExprAction;
 import com.zql.android.purelauncher.adapter.presenter.launcher.Contract;
 import com.zql.android.purelauncher.presentation.LauncherApplication;
 import com.zql.android.purelauncher.presentation.ui.customview.LauncherContainer;
@@ -118,6 +119,7 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
 
         private List<Action> contactList = new ArrayList<>();
 
+        private List<Action> exprList = new ArrayList<>();
         public synchronized void updateAction(List<Action> actions,int actionType){
 
             if(actionType == Action.ACTION_APP){
@@ -128,6 +130,10 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
                 contactList.clear();
                 contactList.addAll(actions);
             }
+            if(actionType == Action.ACTION_EXPR){
+                exprList.clear();
+                exprList.addAll(actions);
+            }
             if(actionType == Action.ACTION_INVAL){
                 appList.clear();
                 contactList.clear();
@@ -136,6 +142,7 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
             actionList.clear();
             actionList.addAll(contactList);
             actionList.addAll(appList);
+            actionList.addAll(exprList);
 
             if(actionList.size() == 0){
                 mLauncherContainer.hideResultView();
@@ -166,7 +173,10 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
                 holder.icon.setImageResource(R.drawable.ic_search_contact);
                 mPresenter.loadContactPhoto(contactAction.contactId,holder.thumbnail);
             }
-
+            if(action instanceof ExprAction){
+                holder.icon.setImageResource(R.drawable.ic_search_expr);
+                holder.thumbnail.setImageDrawable(null);
+            }
 
             //animation
             holder.itemView.setAlpha(0);

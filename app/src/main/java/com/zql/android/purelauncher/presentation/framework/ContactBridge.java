@@ -71,26 +71,32 @@ public class ContactBridge implements ContactProcessor.Bridge {
         List<ContactAction> contactActions = new ArrayList<>();
 
         ContentResolver contentResolver = LauncherApplication.own().getContentResolver();
-        Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI, key);
-        Logly.d("uri = " + uri.toString());
-        Cursor cursor = contentResolver.query(uri, null, null, null, null);
-        if (cursor != null) {
-            try {
-                while (cursor.moveToNext()) {
-                    String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                    String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                    String lookup = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
-                    ContactAction contactAction = new ContactAction();
-                    contactAction.displayName = name;
-                    contactAction.contactId = contactId;
-                    contactAction.lookupKey = lookup;
-                    contactActions.add(contactAction);
+        try {
+
+
+            Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI, key);
+            Logly.d("uri = " + uri.toString());
+            Cursor cursor = contentResolver.query(uri, null, null, null, null);
+            if (cursor != null) {
+                try {
+                    while (cursor.moveToNext()) {
+                        String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                        String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                        String lookup = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+                        ContactAction contactAction = new ContactAction();
+                        contactAction.displayName = name;
+                        contactAction.contactId = contactId;
+                        contactAction.lookupKey = lookup;
+                        contactActions.add(contactAction);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    cursor.close();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                cursor.close();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return contactActions;
     }
@@ -132,16 +138,16 @@ public class ContactBridge implements ContactProcessor.Bridge {
         Intent intent = new Intent(ContactsContract.QuickContact.ACTION_QUICK_CONTACT);
         intent.setData(uri);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setSourceBounds(new Rect(0,0,0,0));
+        intent.setSourceBounds(new Rect(0, 0, 0, 0));
 
         ComponentName componentName = intent.resolveActivity(LauncherApplication.own().getPackageManager());
-        if(componentName != null){
+        if (componentName != null) {
             LauncherApplication.own().startActivity(intent);
         }
 
         intent.setAction(Intent.ACTION_VIEW);
         componentName = intent.resolveActivity(LauncherApplication.own().getPackageManager());
-        if(componentName != null){
+        if (componentName != null) {
             LauncherApplication.own().startActivity(intent);
         }
     }

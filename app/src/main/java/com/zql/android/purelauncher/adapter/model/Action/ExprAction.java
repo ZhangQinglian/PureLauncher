@@ -16,20 +16,16 @@
 
 package com.zql.android.purelauncher.adapter.model.Action;
 
-
 /**
- * @author qinglian.zhang, created on 2017/4/12.
+ * @author qinglian.zhang, created on 2017/4/17.
  */
-public abstract class Action {
+public class ExprAction extends Action {
 
-    public static final int ACTION_INVAL = 0x000;
+    public String expr;
 
-    public static final int ACTION_APP = 0x001;
-
-    public static final int ACTION_CONTACT = 0x002;
-
-    public static final int ACTION_EXPR = 0x003;
-
-    public abstract String getContent();
-
+    public double value;
+    @Override
+    public String getContent() {
+        return expr + " = " + value;
+    }
 }

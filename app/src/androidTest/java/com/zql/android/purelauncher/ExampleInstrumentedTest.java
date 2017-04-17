@@ -4,7 +4,11 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.zql.android.purelauncher.adapter.model.utils.expr.Expr;
+import com.zql.android.purelauncher.adapter.model.utils.expr.Parser;
+import com.zql.android.purelauncher.adapter.model.utils.expr.SyntaxException;
 import com.zql.android.purelauncher.presentation.framework.ContactBridge;
+import com.zqlite.android.logly.Logly;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,9 +24,8 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
 
     @Test
-    public void contactTest(){
-        Context appContext = InstrumentationRegistry.getTargetContext();
-        ContactBridge bridge = new ContactBridge();
-        bridge.getContactActions("王");
+    public void contactTest() throws SyntaxException {
+        Expr expr = Parser.parse("(8+6) * (6+8) - (9+6)*4");
+        Logly.d("" + expr.value());
     }
 }
