@@ -34,6 +34,7 @@ import android.widget.ImageView;
 
 import com.zql.android.purelauncher.adapter.model.Action.AppAction;
 import com.zql.android.purelauncher.adapter.model.processor.AppProcessor;
+import com.zql.android.purelauncher.adapter.model.utils.Trans2PinYin;
 import com.zql.android.purelauncher.presentation.LauncherApplication;
 import com.zqlite.android.logly.Logly;
 
@@ -83,7 +84,9 @@ public class AppBridge implements AppProcessor.Bridge {
                 appName = (String) resolveInfo.loadLabel(packageManager);
                 appNameMap.put(resolveInfo.activityInfo.packageName,appName);
             }
-            if(packageName.contains(key) || appName.contains(key)){
+            if(packageName.toUpperCase().contains(key.toUpperCase())
+                    || appName.toUpperCase().contains(key.toUpperCase())
+                    || Trans2PinYin.getInstance().convertAll(appName).contains(key.toLowerCase())){
                     appActions.add(new AppAction(appName,packageName));
             }
 

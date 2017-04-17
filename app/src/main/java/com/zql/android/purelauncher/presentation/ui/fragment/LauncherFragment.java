@@ -113,12 +113,8 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
 
         private List<Action> actionList = new ArrayList<>();
 
-        private int delay = 0;
-
-        private int delata = 300;
         public synchronized void updateAction(List<Action> actions){
             actionList.clear();
-            delay = 0;
             if(actions != null){
                 actionList.addAll(actions);
             }
