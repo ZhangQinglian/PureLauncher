@@ -57,9 +57,13 @@ public class ExprProcessor extends Processor {
                 return;
             }
             try {
+                Variable.clean();
                 Expr expr = Parser.parse(key);
-
                 ExprAction action = new ExprAction();
+                if(Variable.isEmpty(key)){
+                    workDone(key,actions, Action.ACTION_EXPR);
+                    return;
+                }
                 action.expr = key;
                 action.value = expr.value();
                 actions.add(action);

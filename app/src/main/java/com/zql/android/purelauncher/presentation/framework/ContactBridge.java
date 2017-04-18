@@ -103,7 +103,7 @@ public class ContactBridge implements ContactProcessor.Bridge {
 
     @Override
     public void loadContactPhoto(final String id, final Object imageView) {
-        new AsyncTask<Void, Void, Bitmap>() {
+        AsyncTask<Void,Void,Bitmap> asyncTask = new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
                 Bitmap bitmap = contactPhotoCache.get(id);
@@ -125,10 +125,13 @@ public class ContactBridge implements ContactProcessor.Bridge {
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
-                ((ImageView) imageView).setImageBitmap(bitmap);
+                if(((ImageView) imageView).getTag(R.id.search_asynctask) == this){
+                    ((ImageView) imageView).setImageBitmap(bitmap);
+                }
             }
-        }.execute();
-
+        };
+        ((ImageView) imageView).setTag(R.id.search_asynctask,asyncTask);
+        asyncTask.execute();
     }
 
     @Override

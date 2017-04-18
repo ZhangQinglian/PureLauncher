@@ -176,6 +176,7 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
             if(action instanceof ExprAction){
                 holder.icon.setImageResource(R.drawable.ic_search_expr);
                 holder.thumbnail.setImageDrawable(null);
+                holder.thumbnail.setTag(R.id.search_asynctask,null);
             }
 
             //animation

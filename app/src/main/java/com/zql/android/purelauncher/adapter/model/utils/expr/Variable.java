@@ -19,6 +19,7 @@ package com.zql.android.purelauncher.adapter.model.utils.expr;
 import com.zqlite.android.logly.Logly;
 
 import java.util.Hashtable;
+import java.util.Set;
 
 /**
  * A variable is a simple expression with a name (like "x") and a
@@ -66,12 +67,22 @@ public class Variable extends Expr {
 	val = value; 
     }
 
-    public static boolean isEmpty(){
-        Logly.d("  =+++++++++ " + variables.size());
-        if(variables.size() <=1){
-            return true;
-        }else {
-            return false;
+    public static void clean(){
+        variables.clear();
+        Variable pi = Variable.make("pi");
+        pi.setValue(Math.PI);
+    }
+    public static boolean isEmpty(String key){
+        Set<String> keys =  variables.keySet();
+
+        for(String k : keys){
+            if(k.equals(key)){
+                return true;
+            }
+
         }
+
+        return false;
+
     }
 }

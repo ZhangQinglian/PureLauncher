@@ -32,6 +32,7 @@ import android.os.Handler;
 import android.support.v4.util.LruCache;
 import android.widget.ImageView;
 
+import com.zql.android.purelauncher.R;
 import com.zql.android.purelauncher.adapter.model.Action.AppAction;
 import com.zql.android.purelauncher.adapter.model.processor.AppProcessor;
 import com.zql.android.purelauncher.adapter.model.utils.Trans2PinYin;
@@ -98,9 +99,9 @@ public class AppBridge implements AppProcessor.Bridge {
     @Override
     public void loadAppLogo(final String packageName, final Object imageView) {
         AsyncTask<String,Void,Drawable> asyncTask = new AsyncTask<String,Void,Drawable>() {
-
             @Override
             protected Drawable doInBackground(String... params) {
+
                 Drawable drawable = null;
                 Bitmap bitmap = lruCache.get(params[0]);
                 if(bitmap != null){
@@ -119,9 +120,12 @@ public class AppBridge implements AppProcessor.Bridge {
 
             @Override
             protected void onPostExecute(Drawable drawable) {
-                ((ImageView)imageView).setImageDrawable(drawable);
+                if(((ImageView)imageView).getTag(R.id.search_asynctask) == this){
+                    ((ImageView)imageView).setImageDrawable(drawable);
+                }
             }
         };
+        ((ImageView)imageView).setTag(R.id.search_asynctask,asyncTask);
         asyncTask.execute(packageName);
     }
 
