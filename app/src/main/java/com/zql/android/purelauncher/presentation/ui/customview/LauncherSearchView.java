@@ -126,7 +126,7 @@ public class LauncherSearchView extends CardView {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                setVisibility(INVISIBLE);
+                setVisibility(GONE);
             }
         }).start();
     }
@@ -136,7 +136,7 @@ public class LauncherSearchView extends CardView {
     }
 
     public void switchVisible(){
-        if(getVisibility() == INVISIBLE){
+        if(getVisibility() == GONE){
             show();
             return;
         }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~    Copyright 2017-present, PureLauncher Contributors.
   ~
   ~    Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +14,9 @@
   ~    limitations under the License.
   -->
 
-<resources>
-    <dimen name="custom_launcher_search_text_size">17sp</dimen>
-    <dimen name="custom_launcher_search_edit_padding">12dp</dimen>
-    <dimen name="custom_launcher_widget_h">400dp</dimen>
-</resources>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/launcher_widget_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/custom_launcher_widget_h"
+    android:layout_gravity="center"/>

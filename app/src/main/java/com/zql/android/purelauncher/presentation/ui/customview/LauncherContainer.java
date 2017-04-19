@@ -34,7 +34,7 @@ public class LauncherContainer extends RelativeLayout implements LauncherSearchV
 
     private LauncherSearchView mSearchView;
     private LauncherSearchResultContainer mResultView;
-
+    private LauncherWidget mLauncherWidget;
     private LauncherContainer.Callback mCallback;
     public interface Callback{
         void onInputChanged(String key);
@@ -84,18 +84,18 @@ public class LauncherContainer extends RelativeLayout implements LauncherSearchV
         mSearchView = (LauncherSearchView) findViewById(R.id.launcher_search_view);
         mSearchView.setCallback(this);
         mResultView = (LauncherSearchResultContainer) findViewById(R.id.launcher_search_result);
+        mLauncherWidget = (LauncherWidget) findViewById(R.id.launcher_widget);
     }
 
     @Override
     public void beVisible() {
-        Logly.d("beVisible");
+        mLauncherWidget.hide();
 
     }
 
     @Override
     public void beInVisible() {
-        Logly.d("beInvisible");
-
+        mLauncherWidget.show();
     }
 
     @Override

@@ -31,7 +31,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:cardBackgroundColor="@color/launcher_search_bg"
         app:cardElevation="0dp"/>
     <com.zql.android.purelauncher.presentation.ui.customview.LauncherSearchResultContainer
@@ -42,14 +42,17 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:background="@android:color/transparent">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/launcher_search_result_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"/>
-
     </com.zql.android.purelauncher.presentation.ui.customview.LauncherSearchResultContainer>
-
+    <com.zql.android.purelauncher.presentation.ui.customview.LauncherWidget
+        android:id="@+id/launcher_widget"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/custom_launcher_widget_h">
+    </com.zql.android.purelauncher.presentation.ui.customview.LauncherWidget>
 </com.zql.android.purelauncher.presentation.ui.customview.LauncherContainer>

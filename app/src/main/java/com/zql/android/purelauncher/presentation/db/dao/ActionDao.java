@@ -14,32 +14,31 @@
  *    limitations under the License.
  ******************************************************************************/
 
-package com.zql.android.purelauncher.adapter.model.Action;
+package com.zql.android.purelauncher.presentation.db.dao;
 
-import java.util.ArrayList;
+import com.zql.android.purelauncher.adapter.model.Action.Action;
+import com.zql.android.purelauncher.presentation.db.entity.ActionEntity;
+
 import java.util.List;
 
 /**
- * @author qinglian.zhang, created on 2017/4/17.
+ * @author qinglian.zhang, created on 2017/4/18.
  */
-public class ContactAction extends Action {
+public interface ActionDao {
 
-    public static final int DEFAULT_COUNT = 3;
-    public String displayName ;
-    public String contactId;
-    public String lookupKey;
+    /**
+     * 如存在此action则更新数据库
+     * 如不存在则插入
+     * @param action
+     */
+    void updateAction(Action action);
 
-    public ContactAction(){
-        type = ACTION_CONTACT;
-    }
+    /**
+     * 获得action的点击次数
+     * @param action
+     * @return
+     */
+    int getActionCount(Action action);
 
-    @Override
-    public String getContent() {
-        return displayName;
-    }
-
-    @Override
-    public String getFingerPrint() {
-        return ContactAction.class.getSimpleName() + displayName + contactId + lookupKey;
-    }
+    List<ActionEntity> getActinEntiry(Action action);
 }

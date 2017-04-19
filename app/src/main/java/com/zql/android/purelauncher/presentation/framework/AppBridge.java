@@ -168,7 +168,7 @@ public class AppBridge implements AppProcessor.Bridge {
                 for(int i = 0;i<resolveInfoList.size();i++){
                     ResolveInfo resolveInfo = resolveInfoList.get(i);
                     String appName = (String) resolveInfo.loadLabel(packageManager);
-                    Logly.d("appName : " + appName + "   package : " + resolveInfo.activityInfo.packageName);
+                    //Logly.d("appName : " + appName + "   package : " + resolveInfo.activityInfo.packageName);
                     appNameMap.put(resolveInfo.activityInfo.packageName,appName);
                 }
 

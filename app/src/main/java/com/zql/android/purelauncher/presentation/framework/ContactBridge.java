@@ -75,7 +75,7 @@ public class ContactBridge implements ContactProcessor.Bridge {
 
 
             Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI, key);
-            Logly.d("uri = " + uri.toString());
+            //Logly.d("uri = " + uri.toString());
             Cursor cursor = contentResolver.query(uri, null, null, null, null);
             if (cursor != null) {
                 try {
@@ -111,7 +111,7 @@ public class ContactBridge implements ContactProcessor.Bridge {
 
                 ContentResolver contentResolver = LauncherApplication.own().getContentResolver();
                 Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, id);
-                Logly.d("photo uri = " + uri.toString());
+                //Logly.d("photo uri = " + uri.toString());
                 InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(contentResolver, uri, true);
                 bitmap = BitmapFactory.decodeStream(inputStream);
 

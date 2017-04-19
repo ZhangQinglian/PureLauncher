@@ -48,7 +48,7 @@ public class LauncherSearchResultContainer extends FrameLayout{
     }
 
     public void hide(){
-        setVisibility(INVISIBLE);
+        setVisibility(GONE);
     }
 
 }

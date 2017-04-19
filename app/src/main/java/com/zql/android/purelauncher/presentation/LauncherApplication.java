@@ -20,9 +20,15 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
+import android.provider.Settings;
 
 import com.zql.android.purelauncher.BuildConfig;
+import com.zql.android.purelauncher.presentation.db.entity.DaoMaster;
+import com.zql.android.purelauncher.presentation.db.entity.DaoSession;
 import com.zqlite.android.logly.Logly;
+
+import org.greenrobot.greendao.database.Database;
 
 /**
  * @author qinglian.zhang, created on 2017/4/12.
@@ -33,6 +39,9 @@ public class LauncherApplication extends Application {
 
     private static LauncherApplication sInstance;
 
+    private DaoSession daoSession;
+
+    public static final boolean ENCRYPTED = false;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -44,10 +53,17 @@ public class LauncherApplication extends Application {
 
     private void initApplication(){
         Logly.setGlobalTag(new Logly.Tag(Logly.FLAG_THREAD_NAME,APPLICATION_NAME,Logly.DEBUG));
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "notes-db-encrypted" : "notes-db");
+        Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
+        Logly.d("############# MANUFACTURER #############" + Build.MANUFACTURER);
     }
 
     public static LauncherApplication own(){
         return sInstance;
     }
 
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
 }

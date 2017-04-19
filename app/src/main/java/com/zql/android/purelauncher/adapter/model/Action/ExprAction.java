@@ -24,8 +24,17 @@ public class ExprAction extends Action {
     public String expr;
 
     public double value;
+
+    public ExprAction(){
+        type = ACTION_EXPR;
+    }
     @Override
     public String getContent() {
         return expr + " = " + value;
+    }
+
+    @Override
+    public String getFingerPrint() {
+        return ExprAction.class.getSimpleName() + expr + value;
     }
 }

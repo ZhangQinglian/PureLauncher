@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -43,4 +43,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.0'
     debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
     compile 'com.karumi:dexter:4.1.0'
+    compile 'org.greenrobot:greendao:3.2.2'
+    compile 'com.geniusforapp.fancydialog:FancyDialog:0.0.9'
 }

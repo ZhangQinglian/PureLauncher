@@ -22,13 +22,15 @@ package com.zql.android.purelauncher.adapter.model.Action;
  */
 public class AppAction extends Action {
 
-    private String appName;
+    public static final int DEFAULT_COUNT = 0;
+    public String appName;
 
     public String packageName;
 
     public AppAction(String appName,String packageName){
         this.appName = appName;
         this.packageName = packageName;
+        type = ACTION_APP;
     }
 
     @Override
@@ -39,5 +41,10 @@ public class AppAction extends Action {
     @Override
     public String getContent() {
         return appName;
+    }
+
+    @Override
+    public String getFingerPrint() {
+        return AppAction.class.getSimpleName() + appName + packageName;
     }
 }

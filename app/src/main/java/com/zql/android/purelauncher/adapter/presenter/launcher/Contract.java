@@ -37,10 +37,13 @@ public interface Contract extends IContract{
         void loadContactPhoto(String photoUri,ImageView imageView);
         void action(Action action);
         void hideSearchView();
+        void saveAction(Action action);
+        void sortByCount(List<Action> actions);
     }
 
     interface View extends IView<Presenter>{
         void updateAction(List<Action> actions,int actionType);
         void hideSearchView();
+        void addWidget();
     }
 }

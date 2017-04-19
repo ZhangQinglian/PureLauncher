@@ -32,7 +32,6 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.zql.android.purelauncher.R;
 import com.zql.android.purelauncher.adapter.presenter.launcher.Contract;
 import com.zql.android.purelauncher.adapter.presenter.launcher.LauncherPresenter;
-import com.zql.android.purelauncher.presentation.LauncherApplication;
 import com.zql.android.purelauncher.presentation.framework.BridgesImp;
 import com.zql.android.purelauncher.presentation.ui.fragment.LauncherFragment;
 
@@ -40,7 +39,9 @@ import java.util.List;
 
 public class PureActivity extends AppCompatActivity {
 
+
     private Contract.Presenter mLauncerPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class PureActivity extends AppCompatActivity {
         Dexter.withActivity(this).withPermissions(
                 Manifest.permission.READ_CONTACTS,
                 Manifest.permission.READ_SMS,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
         ).withListener(new MultiplePermissionsListener() {
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport report) {

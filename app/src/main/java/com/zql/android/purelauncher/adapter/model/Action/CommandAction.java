@@ -16,30 +16,36 @@
 
 package com.zql.android.purelauncher.adapter.model.Action;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * @author qinglian.zhang, created on 2017/4/17.
+ * @author qinglian.zhang, created on 2017/4/18.
  */
-public class ContactAction extends Action {
+public class CommandAction extends Action {
 
-    public static final int DEFAULT_COUNT = 3;
-    public String displayName ;
-    public String contactId;
-    public String lookupKey;
+    public static final String SET_DEFAULT_LAUNCHER = "#fuck";
+    public static final String ADD_WIDGET = "#widget";
 
-    public ContactAction(){
-        type = ACTION_CONTACT;
+    public String command = "";
+
+    public CommandAction(String name){
+        command = name;
     }
-
     @Override
     public String getContent() {
-        return displayName;
+        return command;
     }
 
     @Override
     public String getFingerPrint() {
-        return ContactAction.class.getSimpleName() + displayName + contactId + lookupKey;
+        return CommandAction.class.getSimpleName() + command;
+    }
+
+    public static CommandAction getCommandAction(String key){
+        if(SET_DEFAULT_LAUNCHER.equals(key)){
+            return new CommandAction(SET_DEFAULT_LAUNCHER);
+        }
+        if(ADD_WIDGET.equals(key)){
+            return new CommandAction(ADD_WIDGET);
+        }
+        return null;
     }
 }

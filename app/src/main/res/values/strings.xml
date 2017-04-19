@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">PureLauncher</string>
     <string name="launcher_search_edit_hint">输入你想要的</string>
+    <string name="comm_ok">好的</string>
+    <string name="command_fuck_name">设置默认桌面</string>
+    <string name="command_fuck_title">设置默认桌面</string>
+    <string name="command_fuck_neg_text">fuck</string>
+    <string name="command_widget_name">添加小部件</string>
+
+    <string name="command_fuck_dialog_body">除了小米、华为等少数几个手机品牌外，大部分手机只要点按Home键即可选择默认桌面。\n但有些品牌肆意修改Android标准，破坏Launcher生态圈，容我在此地说句"fuck！"\n如想要将PureLauncher设置为默认桌面可以自行百度关于这些品牌手机设置默认桌面的解决方案。\n好吧，我承认适配这个问题有些麻烦，我懒得开发这个功能了~~</string>
 </resources>

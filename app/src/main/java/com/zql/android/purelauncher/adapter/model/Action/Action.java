@@ -30,6 +30,11 @@ public abstract class Action {
 
     public static final int ACTION_EXPR = 0x003;
 
+    public static final int ACTION_COMMAND = 0x004;
+    public int type = ACTION_INVAL;
+
+    public int count = 0;
     public abstract String getContent();
 
+    public abstract String getFingerPrint();
 }

@@ -14,32 +14,25 @@
  *    limitations under the License.
  ******************************************************************************/
 
-package com.zql.android.purelauncher.adapter.model.Action;
+package com.zql.android.purelauncher.adapter.model.processor;
+
+import com.zql.android.purelauncher.adapter.model.Action.Action;
+import com.zql.android.purelauncher.adapter.model.Action.CommandAction;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author qinglian.zhang, created on 2017/4/17.
+ * @author qinglian.zhang, created on 2017/4/18.
  */
-public class ContactAction extends Action {
-
-    public static final int DEFAULT_COUNT = 3;
-    public String displayName ;
-    public String contactId;
-    public String lookupKey;
-
-    public ContactAction(){
-        type = ACTION_CONTACT;
-    }
-
+public class CommandProcessor extends Processor {
     @Override
-    public String getContent() {
-        return displayName;
-    }
-
-    @Override
-    public String getFingerPrint() {
-        return ContactAction.class.getSimpleName() + displayName + contactId + lookupKey;
+    public void onKeyChanged(String newKey) {
+        CommandAction commandAction = CommandAction.getCommandAction(newKey);
+        List<Action> actions = new ArrayList<>();
+        if(commandAction != null){
+            actions.add(commandAction);
+        }
+        workDone(newKey,actions,Action.ACTION_COMMAND);
     }
 }
