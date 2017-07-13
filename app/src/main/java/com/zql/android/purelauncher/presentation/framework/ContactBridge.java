@@ -23,7 +23,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
@@ -34,8 +33,6 @@ import com.zql.android.purelauncher.R;
 import com.zql.android.purelauncher.adapter.model.Action.ContactAction;
 import com.zql.android.purelauncher.adapter.model.processor.ContactProcessor;
 import com.zql.android.purelauncher.presentation.LauncherApplication;
-import com.zql.android.purelauncher.presentation.ui.customview.drawable.CircleDrawable;
-import com.zqlite.android.logly.Logly;
 
 import java.io.InputStream;
 import java.util.ArrayList;

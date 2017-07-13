@@ -53,6 +53,7 @@
     <com.zql.android.purelauncher.presentation.ui.customview.LauncherWidget
         android:id="@+id/launcher_widget"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/custom_launcher_widget_h">
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
     </com.zql.android.purelauncher.presentation.ui.customview.LauncherWidget>
 </com.zql.android.purelauncher.presentation.ui.customview.LauncherContainer>

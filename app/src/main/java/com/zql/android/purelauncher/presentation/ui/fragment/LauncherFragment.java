@@ -22,6 +22,7 @@ import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -143,7 +144,9 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
 
     @Override
     public void onInputChanged(String key) {
-        mPresenter.onKeyChanged(key);
+        if(mPresenter != null){
+            mPresenter.onKeyChanged(key);
+        }
     }
 
     @Override
@@ -243,10 +246,11 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
         AppWidgetHostView hostView = mAppWidgetHost.createView(LauncherApplication.own().getApplicationContext(), appWidgetId, appWidgetProviderInfo);
 
         //设置长宽  appWidgetProviderInfo 对象的 minWidth 和  minHeight 属性
-        AppWidgetHostView.LayoutParams framelayoutP = new AppWidgetHostView.LayoutParams(AppWidgetHostView.LayoutParams.MATCH_PARENT,AppWidgetHostView.LayoutParams.MATCH_PARENT);
-        //FrameLayout.LayoutParams framelayoutP = new FrameLayout.LayoutParams(appWidgetProviderInfo.minWidth,appWidgetProviderInfo.minHeight);
+        //AppWidgetHostView.LayoutParams framelayoutP = new AppWidgetHostView.LayoutParams(AppWidgetHostView.LayoutParams.MATCH_PARENT,AppWidgetHostView.LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams framelayoutP = new FrameLayout.LayoutParams(AppWidgetHostView.LayoutParams.MATCH_PARENT,appWidgetProviderInfo.minHeight
+                + (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,100,LauncherApplication.own().getResources().getDisplayMetrics()));
 
-        framelayoutP.gravity = Gravity.CENTER;
+        framelayoutP.gravity = Gravity.TOP;
         if(mOldWidgetId != -1){
             mAppWidgetHost.deleteAppWidgetId(mOldWidgetId);
         }
@@ -318,21 +322,28 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
         @Override
         public void onBindViewHolder(final SearchResultHolder holder, int position) {
             Action action = actionList.get(position);
+            initHolder(holder);
             holder.content.setText(action.getContent());
+
             if(action instanceof AppAction){
                 AppAction appAction = (AppAction)action;
                 mPresenter.loadApplicationLogo(appAction.packageName,holder.thumbnail);
                 holder.icon.setImageResource(R.drawable.ic_search_app);
+                holder.action1.setVisibility(View.GONE);
+                holder.action2.setVisibility(View.GONE);
             }
             if(action instanceof ContactAction){
-                ContactAction contactAction = (ContactAction)action;
+                final ContactAction contactAction = (ContactAction)action;
                 holder.icon.setImageResource(R.drawable.ic_search_contact);
                 mPresenter.loadContactPhoto(contactAction.contactId,holder.thumbnail);
+                holder.action1.setVisibility(View.GONE);
+                holder.action2.setVisibility(View.GONE);
             }
             if(action instanceof ExprAction){
                 holder.icon.setImageResource(R.drawable.ic_search_expr);
-                holder.thumbnail.setImageDrawable(null);
-                holder.thumbnail.setTag(R.id.search_asynctask,null);
+                holder.action1.setVisibility(View.GONE);
+                holder.action2.setVisibility(View.GONE);
+                holder.thumbnail.setVisibility(View.GONE);
             }
             if(action instanceof CommandAction){
                 CommandAction commandAction = (CommandAction) action;
@@ -344,8 +355,9 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
                     holder.content.setText(R.string.command_fuck_name);
                 }
                 holder.icon.setImageResource(R.drawable.ic_search_command);
-                holder.thumbnail.setImageDrawable(null);
-                holder.thumbnail.setTag(R.id.search_asynctask,null);
+                holder.action1.setVisibility(View.GONE);
+                holder.action2.setVisibility(View.GONE);
+                holder.thumbnail.setVisibility(View.GONE);
             }
 
             //animation
@@ -365,6 +377,17 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
             holder.animator = animator;
         }
 
+        private void initHolder(SearchResultHolder holder){
+            holder.thumbnail.setImageDrawable(null);
+            holder.thumbnail.setTag(R.id.search_asynctask,null);
+            holder.action1.setVisibility(View.VISIBLE);
+            holder.action2.setVisibility(View.VISIBLE);
+            holder.thumbnail.setVisibility(View.VISIBLE);
+            holder.action1.setOnClickListener(null);
+            holder.action2.setOnClickListener(null);
+            holder.action1.setClickable(false);
+            holder.action2.setClickable(false);
+        }
         @Override
         public int getItemCount() {
             return actionList.size();
@@ -380,12 +403,16 @@ public class LauncherFragment extends Fragment implements Contract.View ,Launche
         ImageView icon;
         ImageView thumbnail;
         TextView content;
+        ImageView action1;
+        ImageView action2;
         ValueAnimator animator;
         public SearchResultHolder(View itemView) {
             super(itemView);
             icon = (ImageView) itemView.findViewById(R.id.search_result_item_icon);
             thumbnail = (ImageView) itemView.findViewById(R.id.search_result_item_thumbnail);
             content = (TextView) itemView.findViewById(R.id.search_result_item_content);
+            action1 = (ImageView) itemView.findViewById(R.id.search_result_item_action1);
+            action2 = (ImageView) itemView.findViewById(R.id.search_result_item_action2);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
