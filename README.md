@@ -23,6 +23,7 @@ PureLauncher is an Android Launcher witch just has one input box.
 # Video demo
 
 [Youtube](https://youtu.be/roOKh5_SIyI)
+[Bilibili](https://www.bilibili.com/video/av12164829/)
 
 # License
 
